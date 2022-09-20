@@ -2,42 +2,49 @@
 //  ContentView.swift
 //  TempConverter
 //
-//  Created by EngineerBetter on 20/09/2022.
+//  Created by William Young on 20/09/2022.
 //
 
 import SwiftUI
 
-var dollarFormatter : FloatingPointFormatStyle<Double>.Currency {
-    let currencyCode = Locale.current.currencyCode ?? "USD"
-    return FloatingPointFormatStyle<Double>.Currency(code: currencyCode)
-}
-
 struct ContentView: View {
     @State private var temperature = 0.0
     @State private var people = 2
-    @State private var inputUnit = "Celsius"
-    @State private var outputUnit = "Fahrenheit"
+    @State private var inputUnit = "Celsius °C"
+    @State private var outputUnit = "Fahrenheit °F"
     
-    let units = ["Celsius", "Fahrenheit", "Kelvin"]
-    let units2 = ["Celsius", "Fahrenheit", "Kelvin"]
+    let units = ["Celsius °C", "Fahrenheit °F", "Kelvin K"]
+    let units2 = ["Celsius °C", "Fahrenheit °F", "Kelvin K"]
     
     var convertedTemp: Double {
-        // Use a case statment for the combos of input and output
         switch (inputUnit, outputUnit) {
-        case ("Celsius", "Fahrenheit"):
+        case ("Celsius °C", "Fahrenheit °F"):
             return Double((temperature * 9/5) + 32)
-        case ("Celsius", "Kelvin"):
+        case ("Celsius °C", "Kelvin K"):
             return Double(temperature + 273.15)
-        case ("Fahrenheit", "Celsius"):
+        case ("Fahrenheit °F", "Celsius °C"):
             return Double((temperature - 32) * 5/9)
-        case ("Fahrenheit", "Kelvin"):
+        case ("Fahrenheit °F", "Kelvin K"):
             return Double((temperature - 32) * 5/9 + 273.15)
-        case ("Kelvin", "Celsius"):
+        case ("Kelvin K", "Celsius °C"):
             return Double(temperature - 273.15)
-        case ("Kelvin", "Fahrenheit"):
+        case ("Kelvin K", "Fahrenheit °F"):
             return Double((temperature - 273.15) * 9/5 + 32)
         default:
             return temperature
+        }
+    }
+    
+    var tempSymbol: String {
+        switch outputUnit {
+        case "Celsius °C":
+            return "°C"
+        case "Kelvin K":
+            return "K"
+        case "Fahrenheit °F":
+            return "°F"
+        default:
+            return "?"
         }
     }
     
@@ -49,7 +56,7 @@ struct ContentView: View {
         NavigationView{
             Form{
                 Section{
-                    TextField("Temperature input", value: $temperature, format: .number)
+                    TextField("Temperature input...)", value: $temperature, format: .number)
                         .keyboardType(.decimalPad)
                         .focused($amountIsFocused)
                 } header: {
@@ -57,7 +64,7 @@ struct ContentView: View {
                 }
                 
                 Section{
-                    Picker("Input unit", selection: $inputUnit){
+                    Picker("Input unit...", selection: $inputUnit){
                         ForEach(units, id: \.self){
                             Text("\($0)")
                         }
@@ -67,7 +74,7 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    Picker("Output unit", selection: $outputUnit) {
+                    Picker("Output unit...", selection: $outputUnit) {
                         ForEach(units2, id: \.self) {
                             Text("\($0)")
                         }
@@ -77,14 +84,15 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    Text("\(convertedTemp)")
+                    Text("\(convertedTemp) \(tempSymbol)")
                 } header: {
-                    Text("Select output unit.")
+                    Text("Your converted temperature is:")
                 }
                 
          
             }
-            .navigationTitle("TemperatureConverter")
+            .navigationTitle("TempConverter")
+            .multilineTextAlignment(.leading)
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
