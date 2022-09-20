@@ -21,6 +21,26 @@ struct ContentView: View {
     let units = ["Celsius", "Fahrenheit", "Kelvin"]
     let units2 = ["Celsius", "Fahrenheit", "Kelvin"]
     
+    var convertedTemp: Double {
+        // Use a case statment for the combos of input and output
+        switch (inputUnit, outputUnit) {
+        case ("Celsius", "Fahrenheit"):
+            return 0.0
+        case ("Celsius", "Kelvin"):
+            return 1.0
+        case ("Fahrenheit", "Celsius"):
+            return 2.0
+        case ("Fahrenheit", "Kelvin"):
+            return 3.0
+        case ("Kelvin", "Celsius"):
+            return 4.0
+        case ("Kelvin", "Fahrenheit"):
+            return 5.0
+        default:
+            return 3.6
+        }
+    }
+    
     @FocusState private var amountIsFocused: Bool
     
     
@@ -56,7 +76,11 @@ struct ContentView: View {
                     Text("Select output unit.")
                 }
                 
-                
+                Section {
+                    Text("\(convertedTemp)")
+                } header: {
+                    Text("Select output unit.")
+                }
                 
          
             }
