@@ -25,19 +25,19 @@ struct ContentView: View {
         // Use a case statment for the combos of input and output
         switch (inputUnit, outputUnit) {
         case ("Celsius", "Fahrenheit"):
-            return 0.0
+            return Double((temperature * 9/5) + 32)
         case ("Celsius", "Kelvin"):
-            return 1.0
+            return Double(temperature + 273.15)
         case ("Fahrenheit", "Celsius"):
-            return 2.0
+            return Double((temperature - 32) * 5/9)
         case ("Fahrenheit", "Kelvin"):
-            return 3.0
+            return Double((temperature - 32) * 5/9 + 273.15)
         case ("Kelvin", "Celsius"):
-            return 4.0
+            return Double(temperature - 273.15)
         case ("Kelvin", "Fahrenheit"):
-            return 5.0
+            return Double((temperature - 273.15) * 9/5 + 32)
         default:
-            return 3.6
+            return temperature
         }
     }
     
